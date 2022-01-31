@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
 import { useSelector }  from "react-redux";
 import Colors from "../../constants/Colors";
+import CartItem from "../../components/shop/CartItem";
 
 
 const CartScreen = props => {
@@ -25,7 +26,14 @@ const CartScreen = props => {
                 <Text style={styles.summaryText}>Total: <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text></Text>
                 <Button disabled={cartItems.length === 0} color={Colors.accent} title="Order Now" />
             </View>
-            <View><Text>CART ITEMS</Text></View>
+            <View>
+                <FlatList data={cartItems}
+                          keyExtractor={item => item.productId}
+                          renderItem={itemData => <CartItem title={itemData.item.productTitle}
+                                                            quantity={itemData.item.quantity}
+                                                            amount={itemData.item.sum}
+                                                            onRemove={() => {}} />} />
+            </View>
         </View>
     )
 };
