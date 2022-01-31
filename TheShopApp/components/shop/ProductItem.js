@@ -52,10 +52,12 @@ const styles = StyleSheet.create({
 
     },
     title: {
+     fontFamily: 'open-sans-bold',
      fontSize: Platform.OS === 'ios' ? 18 : 16,
-        marginVertical: 0
+        marginVertical: 1
     },
     price: {
+     fontFamily: 'open-sans',
      fontSize: 14,
         color: '#888'
     },
