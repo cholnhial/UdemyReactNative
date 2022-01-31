@@ -1,11 +1,20 @@
 import Rect from 'react';
-import { View, Text, Image, Button, StyleSheet } from "react-native";
+import { View, Text, Image, Button, StyleSheet, TouchableOpacity, TouchableNativeFeedback } from "react-native";
 import Colors from "../../constants/Colors";
 import {Platform} from "react-native";
+import {Touchable} from "react-native-web";
 
 const ProductItem = props => {
+    let TouchableWithOpacity = TouchableOpacity;
+    if (Platform.OS === 'android' && Platform.Version >= 21) {
+        TouchableWithOpacity = TouchableNativeFeedback;
+    }
+
     return (
         <View style={styles.product}>
+            <View style={styles.touchable}>
+            <TouchableWithOpacity onPress={props.onViewDetails} useForeground>
+                <View>
             <View style={styles.imageContainer}>
                 <Image style={styles.image} source={{uri: props.image}}/>
             </View>
@@ -14,10 +23,14 @@ const ProductItem = props => {
                 <Text style={styles.price}>${props.price.toFixed(2)}</Text>
             </View>
             <View style={styles.actions}>
-                <Button color={Colors.primary} title="View Details" onPress={props.onViewDetail} />
+                <Button color={Colors.primary} title="View Details" onPress={props.onViewDetails} />
                 <Button color={Colors.primary}  title="To Cart" onPress={props.onAddToCart}/>
             </View>
+                </View>
+            </TouchableWithOpacity>
+            </View>
         </View>
+
     )
 }
 
@@ -40,7 +53,7 @@ const styles = StyleSheet.create({
     },
     title: {
      fontSize: Platform.OS === 'ios' ? 18 : 16,
-        marginVertical: 4
+        marginVertical: 0
     },
     price: {
      fontSize: 14,
@@ -65,7 +78,10 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         overflow: 'hidden'
     },
-
+    touchable: {
+        borderRadius: 10,
+        overflow: 'hidden'
+    }
 
 });
 
